@@ -7,15 +7,14 @@ import ReactDOM from 'react-dom';
 let imageDatas = require('../data/imageDatas.json');
 
 //解析图片名
-function genImageURL(imageDataArr) {
+imageDatas = (function genImageURL(imageDataArr) {
   for (var i = 0, j = imageDataArr.length; i < j; i++) {
     var singleImageData = imageDataArr[i];
     singleImageData.imageURL = require('../images/' + singleImageData.fileName);
     imageDataArr[i] = singleImageData;
   }
   return imageDataArr;
-}
-imageDatas = genImageURL(imageDatas);
+})(imageDatas);
 
 function getRangeRandom(low, high) {
   return Math.ceil(Math.random() * (high - low) + low);
@@ -265,7 +264,7 @@ class AppComponent extends React.Component {
   render() {
     var controllerUnits = [],
       imgFigures = [];
-    imageDatas.forEach(function(value, index) {
+    imageDatas.forEach((value, index) => {
       if (!this.state.imgsArrangeArr[index]) {
         this.state.imgsArrangeArr[index] = {
           pos: {
@@ -281,7 +280,7 @@ class AppComponent extends React.Component {
 
       controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]}  inverse={this.inverse(index)} center={this.center(index)}/>);
 
-    }.bind(this));
+    });
 
     return (
       <section className="stage" ref="stage">
